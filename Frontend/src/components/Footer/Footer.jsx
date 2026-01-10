@@ -6,7 +6,7 @@ const Footer = () => {
   return (
     <footer className="bg-gray-800 text-white py-6 ">
       <div className="max-w-6xl mx-auto px-4">
-        <p className="text-center text-sm">&copy; {new Date().getFullYear()} Mess Management. All rights reserved.</p>
+        <p className="text-center text-sm">&copy; {new Date().getFullYear()} Mess-Pilot. All rights reserved.</p>
         <div className="flex justify-center space-x-8 mt-4">
           <Link to="/privacy-policy" className="hover:text-blue-400 text-sm">Privacy Policy</Link>
           <Link to="/terms-of-service" className="hover:text-blue-400 text-sm">Terms of Service</Link>

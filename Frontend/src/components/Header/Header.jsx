@@ -46,7 +46,8 @@ const Header = () => {
             </>
           ) : (
             <span className="text-xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500">
-              Mess Management System
+              Mess-Pilot
+
             </span>
           )}
         </div>

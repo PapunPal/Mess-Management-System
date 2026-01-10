@@ -11,7 +11,7 @@ const generateAccessAndRefreshToken = async (userId) => {
     try {
         const user = await User.findById(userId);
         const accessToken = user.generateAccessToken();
-        const refreshToken = user.generateRefreshToken();  // Corrected the spelling to refreshToken
+        const refreshToken = user.generateRefreshToken(); 
 
         user.refreshToken = refreshToken;
         await user.save({ validateBeforeSave: false });
@@ -105,25 +105,9 @@ const loginUser = asyncHandler(async (req, res) => {
         }, "User logged in successfully"));
 })
 
-// const logoutUser = asyncHandler(async (req, res) => {
-   
-//     await User.findByIdAndUpdate(req.user._id, { $unset: { refreshToken: 1 } }, { new: true });
-
-//     const options = {
-//         httpOnly: true,
-//         secure: true,
-//         sameSite: "None",
-//         path: "/",
-//     };
-
-//     return res.status(200)
-//     .clearCookie("accessToken", { ...options, expires: new Date(0) })
-//     .clearCookie("refreshToken", { ...options, expires: new Date(0) })
-//     .json(new ApiResponse(200, {}, "User logged out successfully"));
-// })
 const logoutUser = asyncHandler(async (req, res) => {
-    const cookies = req.cookies;
-    const refreshToken = cookies?.refreshToken;
+   
+    await User.findByIdAndUpdate(req.user._id, { $unset: { refreshToken: 1 } }, { new: true });
 
     const options = {
         httpOnly: true,
@@ -132,27 +116,11 @@ const logoutUser = asyncHandler(async (req, res) => {
         path: "/",
     };
 
-    if (!refreshToken) {
-        return res
-            .clearCookie("accessToken", { ...options, expires: new Date(0) })
-            .clearCookie("refreshToken", { ...options, expires: new Date(0) })
-            .status(200)
-            .json(new ApiResponse(200, {}, "User logged out successfully"));
-    }
-
-    // Find user by refresh token
-    const user = await User.findOne({ refreshToken });
-    if (user) {
-        user.refreshToken = undefined;
-        await user.save();
-    }
-
-    return res
-        .clearCookie("accessToken", { ...options, expires: new Date(0) })
-        .clearCookie("refreshToken", { ...options, expires: new Date(0) })
-        .status(200)
-        .json(new ApiResponse(200, {}, "User logged out successfully"));
-});
+    return res.status(200)
+    .clearCookie("accessToken", options)
+    .clearCookie("refreshToken", options)
+    .json(new ApiResponse(200, {}, "User logged out successfully"));
+})
 
 
 
