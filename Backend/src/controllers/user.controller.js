@@ -11,7 +11,7 @@ const generateAccessAndRefreshToken = async (userId) => {
     try {
         const user = await User.findById(userId);
         const accessToken = user.generateAccessToken();
-        const refreshToken = user.generateRefreshToken(); 
+        const refreshToken = user.generateRefreshToken();
 
         user.refreshToken = refreshToken;
         await user.save({ validateBeforeSave: false });
@@ -90,7 +90,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
     const options = {
         httpOnly: true,
-        secure: true, 
+        secure: true,
         sameSite: "None",
         path: "/",
         maxAge: 10 * 24 * 60 * 60 * 1000,
@@ -101,26 +101,43 @@ const loginUser = asyncHandler(async (req, res) => {
         .cookie("accessToken", accessToken, { ...options, maxAge: 24 * 60 * 60 * 1000 }) // Corrected spelling
         .cookie("refreshToken", refreshToken, options) // Corrected spelling
         .json(new ApiResponse(200, {
-            user: loggedInUser,accessToken,refreshToken
+            user: loggedInUser, accessToken, refreshToken
         }, "User logged in successfully"));
 })
 
 const logoutUser = asyncHandler(async (req, res) => {
-   
-    await User.findByIdAndUpdate(req.user._id, { $unset: { refreshToken: 1 } }, { new: true });
+    try {
+        const refreshToken = req.cookies?.refreshToken;
 
-    const options = {
-        httpOnly: true,
-        secure: true,
-        sameSite: "None",
-        path: "/",
-    };
+        if (refreshToken) {
+            await User.updateOne(
+                { refreshToken },
+                { $unset: { refreshToken: "" } }
+            );
+        }
 
-    return res.status(200)
-    .clearCookie("accessToken", options)
-    .clearCookie("refreshToken", options)
-    .json(new ApiResponse(200, {}, "User logged out successfully"));
-})
+        const options = {
+            httpOnly: true,
+            secure: true,
+            sameSite: "None",
+            path: "/",
+        };
+
+        return res
+            .status(200)
+            .clearCookie("accessToken", options)
+            .clearCookie("refreshToken", options)
+            .json({ success: true, message: "User logged out successfully" });
+
+    } catch (error) {
+        console.error("Logout error:", error);
+        return res.status(200).json({
+            success: true,
+            message: "Logged out (safe fallback)"
+        });
+    }
+});
+
 
 
 
