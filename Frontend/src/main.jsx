@@ -25,6 +25,9 @@ import AdminGasbill from './pages/Admin/AdminGasbill.jsx';
 import AdminWeeklyfund from './pages/Admin/AdminWeeklyfund.jsx';
 import AdminProductlist from './pages/Admin/AdminProductlist.jsx';
 import AdminMilllist from './pages/Admin/AdminMilllist.jsx';
+import PrivacyPolicy from './pages/PrivacyPolicy.jsx';
+import ContactUs from './pages/Contact.jsx';
+import TermsOfService from './pages/Terms-of-Service.jsx';
 
 const router = createBrowserRouter([
   {
@@ -39,6 +42,18 @@ const router = createBrowserRouter([
       {
         path: "/home",
         element: <Home />,
+      },
+      {
+        path: "/terms-of-service",
+        element: <TermsOfService />,
+      },  
+      {
+        path: "/privacy-policy",
+        element: <PrivacyPolicy />,
+      },
+      {
+        path: "/contact-us",
+        element: <ContactUs />,
       },
       {
         path: "/Signup",

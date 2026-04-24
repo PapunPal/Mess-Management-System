@@ -295,7 +295,7 @@ const LandingPage = () => {
           transition={{ duration: 0.8 }}
           className="relative z-10 max-w-4xl mx-auto px-6"
         >
-          <h1 className="text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400 mb-6">
+          <h1 className=" h-20 text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400 mb-6">
             Next-Gen Mess Management
           </h1>
           <p className="text-xl text-gray-300 max-w-2xl mx-auto">
