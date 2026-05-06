@@ -38,7 +38,7 @@ const Header = () => {
               <img
                 src={user?.avatar}
                 alt="User Photo"
-                className="w-12 h-12 rounded-full border-2 border-cyan-400 shadow-lg shadow-cyan-500/50"
+                className="w-12 h-12 rounded-full border-2 border-cyan-400 shadow-lg shadow-cyan-500/50 relative transition-all duration-300 ease-in-out hover:scale-150 hover:z-50 hover:shadow-cyan-400/90 cursor-pointer"
               />
               <span className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500">
                 {user?.username}
